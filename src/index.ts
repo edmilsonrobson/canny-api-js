@@ -1,2 +1,3 @@
-export * from './lib/async';
-export * from './lib/number';
+import CannyAPI from './lib/CannyAPI';
+
+export default CannyAPI;
