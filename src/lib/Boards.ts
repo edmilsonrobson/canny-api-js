@@ -4,7 +4,7 @@ export default class Boards {
   static BOARDS_LIST_ROUTE = '/boards/list';
   static BOARDS_RETRIEVE_ROUTE = '/boards/retrieve';
 
-  axios: AxiosInstance;
+  private axios: AxiosInstance;
 
   constructor(axios: AxiosInstance) {
     this.axios = axios;
@@ -19,7 +19,7 @@ export default class Boards {
     return board;
   }
 
-  async list(): Promise<ICannyBoard[]> {
+  async list(): Promise<ICannyBoardWithToken[]> {
     const response = await this.axios.post(Boards.BOARDS_LIST_ROUTE);
     const {
       data: { boards },

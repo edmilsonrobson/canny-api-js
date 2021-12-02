@@ -5,7 +5,7 @@ import Boards from './Boards';
 export default class CannyAPI {
   apiBaseUrl = 'https://canny.io/api/v1';
   config: ICannyAPIConfig;
-  axios: AxiosInstance;
+  private axios: AxiosInstance;
 
   boards: Boards;
 

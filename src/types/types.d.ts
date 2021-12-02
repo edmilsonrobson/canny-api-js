@@ -5,9 +5,14 @@ interface ICannyAPIConfig {
 interface ICannyBoard {
   id: string;
   created: string;
+  isPrivate: boolean;
   name: string;
   postCount: number;
   url: string;
+}
+
+interface ICannyBoardWithToken extends ICannyBoard {
+  token: string;
 }
 
 interface ICannyUser {
