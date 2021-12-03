@@ -202,3 +202,8 @@ interface ICannyComment {
   /** The text value of this comment.  */
   value: string;
 }
+
+interface ICannyUserCompanyCreateArg {
+  created: Date;
+  customFields: ICannyCustomFields[];
+}

@@ -8,9 +8,13 @@ interface ICannyChangelogEntryListResponse {
 interface ICannyChangelogEntryListArgs {
   /** Fetch only entries with at least one of the labels in the array. */
   labelIDs?: string[];
+  /** The number of entries you'd like to fetch. Defaults to 10 if not specified. */
   limit?: number;
+  /** The number of entries you'd like to skip before starting to fetch. Defaults to 0 if not specified. */
   skip?: number;
+  /** The order in which the entries should be fetched. Options include: "created", "lastSaved", "nonPublishedFirst", "publishedAt". Defaults to "nonPublishedFirst" if not specified. */
   sort?: CannyChangelogEntrySortOptions;
+  /** The type of entries to fetch. Value can be "new", "improved", or "fixed". */
   type?: CannyChangelogEntryType;
 }
 

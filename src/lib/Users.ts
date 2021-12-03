@@ -12,10 +12,11 @@ interface ICannyUserListResponse {
   users: ICannyUser[];
 }
 
-// TODO missing companies subfield
 interface ICannyUserFindOrCreateArgs {
   /** The URL pointing to the user's avatar image. */
   avatarURL?: string;
+  /** A list of companies the user is associated with. */
+  companies?: ICannyUserCompanyCreateArg[];
   /** The date the user was created in your system. */
   created?: string;
   /** Any custom fields associated with the user. */
