@@ -42,3 +42,29 @@ interface ICannyUser {
   /** The user's unique identifier in your application. This field can be null. We only have this data if the user was authenticated via single sign-on, or if it was added via API.  */
   userID: string | null;
 }
+
+interface ICannyCustomFields {
+  [key: string]: string;
+}
+
+// Functions
+
+// TODO missing companies subfield
+interface ICannyUserFindOrCreateArgs {
+  /** The URL pointing to the user's avatar image. */
+  avatarURL?: string;
+  /** The date the user was created in your system. */
+  created?: string;
+  /** Any custom fields associated with the user. */
+  customFields?: ICannyCustomFields;
+  /** The user's email. */
+  email?: string;
+  /** The user's name. */
+  name: string;
+  /** The user's unique identifier in your application. */
+  userID: string;
+}
+
+interface ICannyUserFindOrCreateResponse {
+  id: string;
+}

@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 import Boards from './Boards';
+import Users from './Users';
 
 export default class CannyAPI {
   apiBaseUrl = 'https://canny.io/api/v1';
@@ -8,6 +9,7 @@ export default class CannyAPI {
   private axios: AxiosInstance;
 
   boards: Boards;
+  users: Users;
 
   constructor(config: ICannyAPIConfig) {
     if (!config.apiKey) {
@@ -25,5 +27,6 @@ export default class CannyAPI {
     });
 
     this.boards = new Boards(this.axios);
+    this.users = new Users(this.axios);
   }
 }
