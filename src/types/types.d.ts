@@ -7,13 +7,21 @@ type CannyPostStatus =
   | 'closed'
   | string;
 
-type CannySortOptions =
+type CannyPostSortOptions =
   | 'newest'
   | 'oldest'
   | 'relevance'
   | 'score'
   | 'statusChanged'
   | 'trending';
+
+type CannyChangelogEntrySortOptions =
+  | 'created'
+  | 'lastSaved'
+  | 'nonPublishedFirst'
+  | 'publishedAt';
+
+type CannyChangelogEntryType = 'new' | 'improved' | 'fixed';
 
 interface ICannyAPIConfig {
   apiKey: string;
@@ -133,24 +141,25 @@ interface ICannyCustomFields {
   [key: string]: string;
 }
 
-// Functions
-
-// TODO missing companies subfield
-interface ICannyUserFindOrCreateArgs {
-  /** The URL pointing to the user's avatar image. */
-  avatarURL?: string;
-  /** The date the user was created in your system. */
-  created?: string;
-  /** Any custom fields associated with the user. */
-  customFields?: ICannyCustomFields;
-  /** The user's email. */
-  email?: string;
-  /** The user's name. */
+interface ICannyLabel {
+  id: string;
+  created: Date;
+  entryCount: number;
   name: string;
-  /** The user's unique identifier in your application. */
-  userID: string;
+  url: string;
 }
 
-interface ICannyUserFindOrCreateResponse {
+interface ICannyChangelogEntry {
   id: string;
+  created: Date;
+  labels: ICannyLabel[];
+  lastSaved: Date;
+  markdownDetails: string;
+  plaintextDetails: string;
+  posts: ICannyPost[];
+  publishedAt: Date | null;
+  scheduledFor: Date | null;
+  status: 'draft' | 'scheduled' | 'published';
+  types: CannyChangelogEntryType[];
+  url: string;
 }

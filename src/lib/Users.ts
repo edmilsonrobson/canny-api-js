@@ -11,6 +11,27 @@ interface ICannyUserListResponse {
   hasMore: boolean;
   users: ICannyUser[];
 }
+
+// TODO missing companies subfield
+interface ICannyUserFindOrCreateArgs {
+  /** The URL pointing to the user's avatar image. */
+  avatarURL?: string;
+  /** The date the user was created in your system. */
+  created?: string;
+  /** Any custom fields associated with the user. */
+  customFields?: ICannyCustomFields;
+  /** The user's email. */
+  email?: string;
+  /** The user's name. */
+  name: string;
+  /** The user's unique identifier in your application. */
+  userID: string;
+}
+
+interface ICannyUserFindOrCreateResponse {
+  id: string;
+}
+
 export default class Users {
   static USERS_LIST_ROUTE = '/users/list';
   static USERS_RETRIEVE_ROUTE = '/users/retrieve';

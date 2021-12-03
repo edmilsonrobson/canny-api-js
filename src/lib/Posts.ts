@@ -19,7 +19,7 @@ interface ICannyPostListArgs {
   /** The number of posts you'd like to skip before starting to fetch. Defaults to 0 if not specified. */
   skip?: number;
   /** The order in which the posts should be fetched. Options include: "newest", "oldest", "relevance", "score", "statusChanged", "trending". Defaults to "newest" if not specified. The "relevance" sort can only be specified if a search value has been specified. */
-  sort?: CannySortOptions;
+  sort?: CannyPostSortOptions;
   /** A comma separated list of statuses. Only posts with these statuses will be fetched. Defaults to "open,under review,planned,in progress" if not specified. */
   status?: CannyPostStatus;
 }

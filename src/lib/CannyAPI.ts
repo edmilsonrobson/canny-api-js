@@ -1,6 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 import Boards from './Boards';
+import ChangelogEntries from './ChangelogEntries';
 import Posts from './Posts';
 import Users from './Users';
 
@@ -12,6 +13,7 @@ export default class CannyAPI {
   boards: Boards;
   users: Users;
   posts: Posts;
+  changelogEntries: ChangelogEntries;
 
   constructor(config: ICannyAPIConfig) {
     if (!config.apiKey) {
@@ -31,5 +33,6 @@ export default class CannyAPI {
     this.boards = new Boards(this.axios);
     this.users = new Users(this.axios);
     this.posts = new Posts(this.axios);
+    this.changelogEntries = new ChangelogEntries(this.axios);
   }
 }

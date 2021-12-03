@@ -5,6 +5,7 @@ This is a general list of undocumented properties on the Canny API and inconsite
 ## Boards
 
 There's an undocument `token` attribute on each board object on the `List all boards` section.
+The `List all boards` request doesn't have a `hasMore` flag - which might make sense if the max number of boards is limited.
 
 ## Posts
 
