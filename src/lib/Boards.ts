@@ -1,5 +1,9 @@
 import { AxiosInstance } from 'axios';
 
+interface ICannyBoardListResponse {
+  hasMore: boolean;
+  boards: ICannyBoardWithToken;
+}
 export default class Boards {
   static BOARDS_LIST_ROUTE = '/boards/list';
   static BOARDS_RETRIEVE_ROUTE = '/boards/retrieve';
@@ -19,12 +23,10 @@ export default class Boards {
     return board;
   }
 
-  async list(): Promise<ICannyBoardWithToken[]> {
+  async list(): Promise<ICannyBoardListResponse[]> {
     const response = await this.axios.post(Boards.BOARDS_LIST_ROUTE);
-    const {
-      data: { boards },
-    } = response;
+    const { data } = response;
 
-    return boards;
+    return data;
   }
 }

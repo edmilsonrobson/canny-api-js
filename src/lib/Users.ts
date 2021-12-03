@@ -1,5 +1,16 @@
 import { AxiosInstance } from 'axios';
 
+interface ICannyUserListArgs {
+  /** The number of entries you'd like to fetch. Defaults to 10 if not specified. Maximum value allowed: 100. */
+  limit?: number;
+  /** The number of entries you'd like to skip before starting to fetch. Defaults to 0 if not specified. */
+  skip?: number;
+}
+
+interface ICannyUserListResponse {
+  hasMore: boolean;
+  users: ICannyUser[];
+}
 export default class Users {
   static USERS_LIST_ROUTE = '/users/list';
   static USERS_RETRIEVE_ROUTE = '/users/retrieve';
@@ -12,11 +23,11 @@ export default class Users {
     this.axios = axios;
   }
 
-  async list(): Promise<ICannyUser[]> {
-    const response = await this.axios.post(Users.USERS_LIST_ROUTE);
-    const { data: users } = response;
+  async list(args?: ICannyUserListArgs): Promise<ICannyUserListResponse> {
+    const response = await this.axios.post(Users.USERS_LIST_ROUTE, { ...args });
+    const { data } = response;
 
-    return users;
+    return data;
   }
 
   async retrieve(id: string): Promise<ICannyUser> {
