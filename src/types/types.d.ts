@@ -103,6 +103,7 @@ interface ICannyJiraIssue {
 interface ICannyJiraAttribute {
   linkedIssues: ICannyJiraIssue[];
   /** (Undocumented) */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   linkedIssueIDs: any[];
 }
 
@@ -130,6 +131,7 @@ interface ICannyPost {
   /** A list of Jira issues that are linked with this post */
   jira: ICannyJiraAttribute;
   /** (Undocumented) */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   mergeHistory: any[];
   /** The owner of the post */
   owner: ICannyUser | null;

@@ -14,7 +14,7 @@ import Votes from './Votes';
 export default class CannyAPI {
   apiBaseUrl = 'https://canny.io/api/v1';
   config: ICannyAPIConfig;
-  private axios: AxiosInstance;
+  axios: AxiosInstance;
 
   boards: Boards;
   changelogEntries: ChangelogEntries;
