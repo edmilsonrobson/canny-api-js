@@ -1,3 +1,15 @@
+type CannyWebhookEventObjectType = 'post' | 'comment' | 'vote';
+type CannyWebhookEventType =
+  | 'post.created'
+  | 'post.deleted'
+  | 'post.jira_issue_linked'
+  | 'post.jira_issue_unlinked'
+  | 'post.status_changed'
+  | 'comment.created'
+  | 'comment.deleted'
+  | 'vote.created'
+  | 'vote.deleted';
+
 type CannyPostStatus =
   | 'open'
   | 'under review'
@@ -33,7 +45,7 @@ interface ICannyBoard {
   /** Time at which the board was created, in ISO 8601 format. */
   created: string;
   /** (Undocumented) A boolean indicating if the board is private or not. */
-  isPrivate: boolean;
+  isPrivate?: boolean;
   /** The board's name. */
   name: string;
   /** The number of non-deleted posts associated with the board. This number includes posts that are marked as closed or complete.  */
@@ -51,15 +63,15 @@ interface ICannyUser {
   /** A unique identifier for the user. */
   id: string;
   /** Link to the user's avatar image. */
-  avatarURL: string | null;
+  avatarURL?: string | null;
   /** Time at which the user was created, in ISO 8601 format. */
-  created: Date;
+  created: string;
   /** The user's email. This field can be null, for example when you create a new user by voting on behalf of them. */
   email?: string;
   /** Whether or not the user is a Canny admin. */
   isAdmin: boolean;
   /** Time at which the user interacted with your company for the last time, in ISO 8601 format.   */
-  lastActivity: Date;
+  lastActivity?: string;
   /** The user's name. */
   name: string;
   /** The URL of the user's profile. */
@@ -108,7 +120,7 @@ interface ICannyPost {
   /** The number of non-deleted comments associated with this post. */
   commentCount: number;
   /** Time at which the post was created, in ISO 8601 format. */
-  created: Date;
+  created: string;
   /** Any details the user included in the post. This is the longer text field (where the shorter one is "title"). */
   details: string;
   /** The month and year the post is estimated to be delivered. */
@@ -126,7 +138,7 @@ interface ICannyPost {
   /** The post's status: "open", "under review", "planned", "in progress", "complete", "closed", or any other status your team has set on the settings page. */
   status: CannyPostStatus;
   /** (Undocumented) */
-  statusChangedAt: Date;
+  statusChangedAt: string;
   /** The list of tag objects associated with this post. */
   tags: ICannyTag[];
   /** A brief title describing the post. This is the shorter text input (where the longer is details). */
@@ -143,7 +155,7 @@ interface ICannyCustomFields {
 
 interface ICannyLabel {
   id: string;
-  created: Date;
+  created: string;
   entryCount: number;
   name: string;
   url: string;
@@ -153,11 +165,11 @@ interface ICannyChangelogEntry {
   /** A unique identifier for the entry. */
   id: string;
   /** Time at which the entry was first created, in ISO 8601 format. */
-  created: Date;
+  created: string;
   /** The list of labels that the entry is associated with. */
   labels: ICannyLabel[];
   /** Time at which the entry was last updated, in ISO 8601 format. */
-  lastSaved: Date;
+  lastSaved: string;
   /** The markdown contents of the entry. */
   markdownDetails: string;
   /** The plaintext contents of the entry, with images, videos, and links stripped. */
@@ -165,9 +177,9 @@ interface ICannyChangelogEntry {
   /** The list of posts this entry is linked to. */
   posts: ICannyPost[];
   /** Time at which the entry was published, if it has been published. */
-  publishedAt: Date | null;
+  publishedAt: string | null;
   /** Time at which the entry is schedule to be published, if it is scheduled. */
-  scheduledFor: Date | null;
+  scheduledFor: string | null;
   /** The status of the entry, describing whether it has been published. Will be set to draft, scheduled, or published. */
   status: 'draft' | 'scheduled' | 'published';
   /** The title of the entry. */
@@ -186,7 +198,7 @@ interface ICannyComment {
   /** The board the comment is associated with. */
   board: ICannyBoard;
   /** Time at which the comment was created, in ISO 8601 format. */
-  created: Date;
+  created: string;
   /** An array of the URLs of the images associated with this comment. */
   imageURLs: string[];
   /** Whether or not the comment is an internal comment. */
@@ -204,7 +216,7 @@ interface ICannyComment {
 }
 
 interface ICannyUserCompanyCreateArg {
-  created: Date;
+  created: string;
   customFields: ICannyCustomFields[];
 }
 
@@ -219,7 +231,7 @@ interface ICannyStatusChange {
     value: string;
   };
   /** Time at which the status was changed, in ISO 8601 format. */
-  created: Date;
+  created: string;
   /** The post that had its status changed. */
   post: ICannyPost;
   /** The status the post was changed to. */
@@ -244,6 +256,7 @@ interface ICannyOpportunity {
 }
 
 interface ICannyTag {
+  /** A unique identifier for the tag. */
   id: string;
   /** The board this tag is associated with. */
   board: ICannyBoard;
@@ -255,4 +268,41 @@ interface ICannyTag {
   postCount: number;
   /** The URL to the board, filtered to just posts that have been assigned this tag. */
   url: string;
+}
+
+interface ICannyZendeskTicket {
+  url: string;
+  id: number;
+  created: string;
+  subject: string;
+  description: string;
+}
+
+interface ICannyVote {
+  /** A unique identifier for the vote. */
+  id: string;
+  /** The board this vote is associated with. */
+  board: ICannyBoard;
+  /** The admin who cast this vote on behalf of a user. If the user voted themselves, this field will be null. */
+  by: ICannyUser | null;
+  /** Time at which the vote was first cast, in ISO 8601 format. */
+  created: string;
+  /** The post this vote is associated with. */
+  post: ICannyPost;
+  /** The user this post is associated with. */
+  voter: ICannyUser;
+  /** (Undocumented) Related zendesk ticket information */
+  zendeskTicket: ICannyZendeskTicket | null;
+}
+
+interface ICannyWebhookEvent {
+  /** Time at which the event was created, in ISO 8601 format. */
+  created: string;
+  /** The object the event is about. */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  object: any;
+  /** The type of object included in the event. */
+  objectType: CannyWebhookEventObjectType;
+  /** The type of event. */
+  type: CannyWebhookEventType;
 }

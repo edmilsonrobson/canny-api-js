@@ -9,6 +9,7 @@ import Posts from './Posts';
 import StatusChanges from './StatusChanges';
 import Tags from './Tags';
 import Users from './Users';
+import Votes from './Votes';
 
 export default class CannyAPI {
   apiBaseUrl = 'https://canny.io/api/v1';
@@ -24,6 +25,7 @@ export default class CannyAPI {
   statusChanges: StatusChanges;
   tags: Tags;
   users: Users;
+  votes: Votes;
 
   constructor(config: ICannyAPIConfig) {
     if (!config.apiKey) {
@@ -49,5 +51,6 @@ export default class CannyAPI {
     this.statusChanges = new StatusChanges(this.axios);
     this.tags = new Tags(this.axios);
     this.users = new Users(this.axios);
+    this.votes = new Votes(this.axios);
   }
 }
