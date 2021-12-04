@@ -46,6 +46,5 @@
   },
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules/**"],
-  "exclude": ["src/playground.ts"],
   "compileOnSave": false
 }

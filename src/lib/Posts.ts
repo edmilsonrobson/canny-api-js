@@ -1,4 +1,6 @@
 import { AxiosInstance } from 'axios';
+
+import cache, { createKeyHash } from './cache';
 import { sleep } from './helpers';
 
 interface ICannyPostListResponse {
@@ -23,6 +25,10 @@ interface ICannyPostListArgs {
   sort?: CannyPostSortOptions;
   /** A comma separated list of statuses. Only posts with these statuses will be fetched. Defaults to "open,under review,planned,in progress" if not specified. */
   status?: CannyPostStatus;
+}
+
+interface ICannyPostListOptions {
+  ignoreCache?: boolean;
 }
 
 interface ICannyPostCreateArgs {
@@ -90,9 +96,22 @@ export default class Posts {
     return data;
   }
 
-  async listAll(args?: ICannyPostListArgs): Promise<ICannyPost[]> {
-    delete args.limit;
-    delete args.skip;
+  async listAll(
+    args?: ICannyPostListArgs,
+    options?: ICannyPostListOptions
+  ): Promise<ICannyPost[]> {
+    if (args) {
+      delete args.limit;
+      delete args.skip;
+    }
+    const cachedPostsKey = createKeyHash('postsListAll', { ...args });
+    if (!options || !options.ignoreCache) {
+      const cachedValue = cache.get(cachedPostsKey);
+      if (cachedValue) {
+        return cachedValue;
+      }
+    }
+
     const limit = 100;
 
     const posts: ICannyPost[] = [];
@@ -113,6 +132,7 @@ export default class Posts {
       await sleep(2000);
     } while (page.hasMore);
 
+    cache.store(cachedPostsKey, posts);
     return posts;
   }
 

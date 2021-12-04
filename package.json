@@ -7,7 +7,12 @@
   "module": "build/module/index.js",
   "repository": "https://github.com/edmilsonrobson/canny-api-js",
   "license": "MIT",
-  "keywords": ["canny", "node", "canny-api", "wrapper"],
+  "keywords": [
+    "canny",
+    "node",
+    "canny-api",
+    "wrapper"
+  ],
   "scripts": {
     "start": "nodemon src/playground.ts",
     "build": "run-p build:*",
@@ -44,7 +49,8 @@
   "dependencies": {
     "@bitauth/libauth": "^1.17.1",
     "axios": "^0.24.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "object-hash": "^2.2.0"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
