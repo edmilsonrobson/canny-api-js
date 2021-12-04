@@ -4,8 +4,10 @@ import Boards from './Boards';
 import ChangelogEntries from './ChangelogEntries';
 import Comments from './Comments';
 import Companies from './Companies';
+import Opportunities from './Opportunities';
 import Posts from './Posts';
 import StatusChanges from './StatusChanges';
+import Tags from './Tags';
 import Users from './Users';
 
 export default class CannyAPI {
@@ -17,8 +19,10 @@ export default class CannyAPI {
   changelogEntries: ChangelogEntries;
   comments: Comments;
   companies: Companies;
+  opportunities: Opportunities;
   posts: Posts;
   statusChanges: StatusChanges;
+  tags: Tags;
   users: Users;
 
   constructor(config: ICannyAPIConfig) {
@@ -40,8 +44,10 @@ export default class CannyAPI {
     this.changelogEntries = new ChangelogEntries(this.axios);
     this.comments = new Comments(this.axios);
     this.companies = new Companies(this.axios);
+    this.opportunities = new Opportunities(this.axios);
     this.posts = new Posts(this.axios);
     this.statusChanges = new StatusChanges(this.axios);
+    this.tags = new Tags(this.axios);
     this.users = new Users(this.axios);
   }
 }

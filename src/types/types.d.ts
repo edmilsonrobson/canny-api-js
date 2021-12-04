@@ -225,3 +225,34 @@ interface ICannyStatusChange {
   /** The status the post was changed to. */
   status: CannyPostStatus;
 }
+
+interface ICannyOpportunity {
+  /** A unique identifier for the opportunity. */
+  id: string;
+  /** Whether the opportunity is closed. */
+  closed: boolean;
+  /** The name of the opportunity. */
+  name: string;
+  /** The list of post ids this opportunity is linked to. */
+  postIDs: string[];
+  /** The unique identifier for the opportunity in Salesforce. */
+  salesforceOpportunityID: string | null;
+  /** The value of the opportunity. */
+  value: number;
+  /** Whether the opportunity has been won. */
+  won: boolean;
+}
+
+interface ICannyTag {
+  id: string;
+  /** The board this tag is associated with. */
+  board: ICannyBoard;
+  /** Time at which the tag was created, in ISO 8601 format. */
+  created: string;
+  /** The name of the tag. */
+  name: string;
+  /** The number of posts that have been assigned this tag. */
+  postCount: number;
+  /** The URL to the board, filtered to just posts that have been assigned this tag. */
+  url: string;
+}
