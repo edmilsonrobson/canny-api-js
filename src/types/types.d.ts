@@ -207,3 +207,21 @@ interface ICannyUserCompanyCreateArg {
   created: Date;
   customFields: ICannyCustomFields[];
 }
+
+interface ICannyStatusChange {
+  /** A unique identifier for the status change. */
+  id: string;
+  /** The comment attached to this status change. Only imageURLs and value fields are included. */
+  changer: ICannyUser;
+  /** The user who changed the status. */
+  changeComment: {
+    imageURLs: string[];
+    value: string;
+  };
+  /** Time at which the status was changed, in ISO 8601 format. */
+  created: Date;
+  /** The post that had its status changed. */
+  post: ICannyPost;
+  /** The status the post was changed to. */
+  status: CannyPostStatus;
+}
