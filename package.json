@@ -1,6 +1,6 @@
 {
   "name": "canny-api-js",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Unofficial node API wrapper for Canny's API (https://canny.io/).",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",

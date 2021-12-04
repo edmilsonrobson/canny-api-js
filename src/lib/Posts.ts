@@ -1,4 +1,5 @@
 import { AxiosInstance } from 'axios';
+import { sleep } from './helpers';
 
 interface ICannyPostListResponse {
   hasMore: boolean;
@@ -89,8 +90,36 @@ export default class Posts {
     return data;
   }
 
+  async listAll(args?: ICannyPostListArgs): Promise<ICannyPost[]> {
+    delete args.limit;
+    delete args.skip;
+    const limit = 100;
+
+    const posts: ICannyPost[] = [];
+    let currentSkipCount = 0;
+    const getPage = async (): Promise<ICannyPostListResponse> => {
+      return this.list({
+        ...args,
+        limit: limit,
+        skip: currentSkipCount,
+      });
+    };
+
+    let page;
+    do {
+      page = await getPage();
+      posts.push(...page.posts);
+      currentSkipCount += limit;
+      await sleep(2000);
+    } while (page.hasMore);
+
+    return posts;
+  }
+
   async create(args: ICannyPostCreateArgs): Promise<ICannyPostCreateResponse> {
-    const response = await this.axios.post(Posts.POSTS_LIST_ROUTE, { ...args });
+    const response = await this.axios.post(Posts.POSTS_CREATE_ROUTE, {
+      ...args,
+    });
     const { data } = response;
 
     return data;
