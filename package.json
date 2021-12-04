@@ -7,7 +7,7 @@
   "module": "build/module/index.js",
   "repository": "https://github.com/edmilsonrobson/canny-api-js",
   "license": "MIT",
-  "keywords": [],
+  "keywords": ["canny", "node", "canny-api", "wrapper"],
   "scripts": {
     "start": "nodemon src/playground.ts",
     "build": "run-p build:*",
