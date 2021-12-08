@@ -7,10 +7,6 @@ This is a general list of undocumented properties on the Canny API and inconsite
 There's an undocumented `token` attribute on each board object on the `List all boards` section.
 The `List all boards` request doesn't have a `hasMore` flag - but that might make sense if the max number of boards is limited.
 
-## Comments
-
-On the `Delete comment` section, the example response should be displayed as a string: `"success"`.
-
 ## Posts
 
 The following Posts properties show up on API responses, but are not properly documented:
@@ -28,11 +24,13 @@ On the returned `post.author` and `post.board`, the following properties are mis
 `author` - `lastActivity` and `avatarURL`
 `board` - `isPrivate`
 
+On the `Retrieve post` section, the `changeComment` attribute in the response example is not documented.
+
+Examples of error responses are only available in three methods: `Change Post status`, `Add post tag`, `Remove post tag`. Other methods, even outside of the `Posts` entity, do not provide examples of error messages.
+
 ## Users
 
 When requesting `/users/list`, the response doesn't contain a `hasMore` boolean attribute in the response. When you list posts, for example, the `hasMore` flag is there. **Changing this would be a breaking change.** Continuously querying for more users with the `skip` flag until it returns an empty array is an acceptable substitute, but the inconsistency still exists.
-
-On the `Delete user` section, the Example Request uses a `userID` as an argument rather than the `id`. The example response should also be displayed as a string: `"success"`.
 
 ## Votes
 
@@ -40,6 +38,8 @@ On the `Delete vote` section, the arguments to delete are the postID and the vot
 
 Votes have an undocumented `zendeskTicket` attribute not listed in the `Attributes` section of `The vote object` part of the docs.
 
+On the `List votes` section, the example response is not in a valid `json` format (there's a missing `}` on the `zendeskTicket` attribute)
+
 ## Webhooks
 
-On the example given for webhooks, the `Post` on the `object` attribute is missing multiple attributes that you would expect when querying for a `Post`, such as `by`, `category`, `jira`, `mergeHistory`
+On the example given for webhooks, the `Post` on the `object` attribute is missing multiple attributes that you would expect when querying for a `Post`, such as `by`, `category`, `jira`, `mergeHistory`.

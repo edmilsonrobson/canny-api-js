@@ -36,13 +36,14 @@ mockedAxios.onPost(Boards.BOARDS_LIST_ROUTE).reply(200, {
   ],
 });
 
-mockedAxios.onPost(Boards.BOARDS_RETRIEVE_ROUTE).reply(200, {
-  id: 'my-first-board-id',
+mockedAxios.onPost(Boards.BOARDS_RETRIEVE_ROUTE).reply<ICannyBoard>(200, {
+  id: '553c3ef8b8cdcd1501ba1234',
   created: '2017-07-15T22:11:00.000Z',
-  name: 'My First Board',
-  postCount: 132,
+  isPrivate: true,
+  name: 'Feature Requests',
+  postCount: 123,
   url: 'https://your-company.canny.io/admin/board/feature-requests',
-} as ICannyBoard);
+});
 
 test('List must return an array of boards', async (t) => {
   const expectedResponse: ICannyBoardListResponse = {
@@ -75,10 +76,11 @@ test('List must return an array of boards', async (t) => {
 
 test('Retrieve must return a board', async (t) => {
   const expectedBoard: ICannyBoard = {
-    id: 'my-first-board-id',
+    id: '553c3ef8b8cdcd1501ba1234',
     created: '2017-07-15T22:11:00.000Z',
-    name: 'My First Board',
-    postCount: 132,
+    isPrivate: true,
+    name: 'Feature Requests',
+    postCount: 123,
     url: 'https://your-company.canny.io/admin/board/feature-requests',
   };
 

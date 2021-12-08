@@ -7,11 +7,6 @@ interface ICannyUserListArgs {
   skip?: number;
 }
 
-interface ICannyUserListResponse {
-  hasMore: boolean;
-  users: ICannyUser[];
-}
-
 interface ICannyUserFindOrCreateArgs {
   /** The URL pointing to the user's avatar image. */
   avatarURL?: string;
@@ -29,7 +24,7 @@ interface ICannyUserFindOrCreateArgs {
   userID: string;
 }
 
-interface ICannyUserFindOrCreateResponse {
+export interface ICannyUserFindOrCreateResponse {
   id: string;
 }
 
@@ -45,7 +40,7 @@ export default class Users {
     this.axios = axios;
   }
 
-  async list(args?: ICannyUserListArgs): Promise<ICannyUserListResponse> {
+  async list(args?: ICannyUserListArgs): Promise<ICannyUser[]> {
     const response = await this.axios.post(Users.USERS_LIST_ROUTE, { ...args });
     const { data } = response;
 

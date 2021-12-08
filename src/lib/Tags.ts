@@ -9,7 +9,7 @@ interface ICannyTagsListArgs {
   skip?: number;
 }
 
-interface ICannyTagsListResponse {
+export interface ICannyTagsListResponse {
   hasMore: boolean;
   tags: ICannyTag[];
 }

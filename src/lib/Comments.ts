@@ -13,7 +13,7 @@ interface ICannyCommentListArgs {
   skip?: number;
 }
 
-interface ICannyCommentListResponse {
+export interface ICannyCommentListResponse {
   hasMore: boolean;
   comments: ICannyComment[];
 }
@@ -35,7 +35,7 @@ interface ICannyCommentCreateArgs {
   shouldNotifyVoters?: boolean;
 }
 
-interface ICannyCommentCreateResponse {
+export interface ICannyCommentCreateResponse {
   id: string;
 }
 

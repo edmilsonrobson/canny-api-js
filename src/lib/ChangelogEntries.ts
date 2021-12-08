@@ -1,6 +1,6 @@
 import { AxiosInstance } from 'axios';
 
-interface ICannyChangelogEntryListResponse {
+export interface ICannyChangelogEntryListResponse {
   hasMore: boolean;
   entries: ICannyChangelogEntry[];
 }

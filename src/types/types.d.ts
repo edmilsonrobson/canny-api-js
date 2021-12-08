@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
+
 type CannyWebhookEventObjectType = 'post' | 'comment' | 'vote';
 type CannyWebhookEventType =
   | 'post.created'
@@ -104,7 +106,94 @@ interface ICannyJiraAttribute {
   linkedIssues: ICannyJiraIssue[];
   /** (Undocumented) */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  linkedIssueIDs: any[];
+  linkedIssueIDs?: any[];
+}
+
+interface ICannyPostChangeResponse {
+  /** A unique identifier for the post. */
+  id: string;
+  /** The user who authored the post. If the author's account has been deleted, this field will be null. */
+  author: ICannyUser;
+  /** The board this post is associated with. */
+  board: ICannyBoard;
+  /** The user who created the post on behalf of the author. */
+  by: ICannyUser | null;
+  /** The category this post is assigned to, if any. */
+  category: ICannyCategory | null;
+  /** (Undocumented) */
+  changeComment?: {
+    value: string;
+    imageURLs: string[];
+  };
+  /** The number of non-deleted comments associated with this post. */
+  commentCount: number;
+  /** Time at which the post was created, in ISO 8601 format. */
+  created: string;
+  /** Any details the user included in the post. This is the longer text field (where the shorter one is "title"). */
+  details: string;
+  /** The month and year the post is estimated to be delivered. */
+  eta: string | null;
+  /** An array of the URLs of the images associated with this post */
+  imageURLs: string[];
+  /** A list of Jira issues that are linked with this post */
+  jira: ICannyJiraAttribute;
+  /** (Undocumented) */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  mergeHistory: any[];
+  /** The number of votes that have been cast on this post. */
+  score: number;
+  /** The post's status: "open", "under review", "planned", "in progress", "complete", "closed", or any other status your team has set on the settings page. */
+  status: CannyPostStatus;
+  /** (Undocumented) */
+  statusChangedAt: string;
+  /** The list of tag objects associated with this post. */
+  tags: ICannyTag[];
+  /** A brief title describing the post. This is the shorter text input (where the longer is details). */
+  title: string;
+  /** The URL to the post's page. */
+  url: string;
+}
+
+interface ICannyStatusChangeRelatedPost {
+  /** A unique identifier for the post. */
+  id: string;
+  /** The user who authored the post. If the author's account has been deleted, this field will be null. */
+  author: ICannyUser;
+  /** The board this post is associated with. */
+  board: ICannyBoard;
+  /** The category this post is assigned to, if any. */
+  category: ICannyCategory | null;
+  /** (Undocumented) */
+  changeComment?: {
+    value: string;
+    imageURLs: string[];
+  };
+  /** The number of non-deleted comments associated with this post. */
+  commentCount: number;
+  /** Time at which the post was created, in ISO 8601 format. */
+  created: string;
+  /** Any details the user included in the post. This is the longer text field (where the shorter one is "title"). */
+  details: string;
+  /** The month and year the post is estimated to be delivered. */
+  eta: string | null;
+  /** An array of the URLs of the images associated with this post */
+  imageURLs: string[];
+  /** A list of Jira issues that are linked with this post */
+  jira: ICannyJiraAttribute;
+  /** The number of votes that have been cast on this post. */
+  score: number;
+  /** The post's status: "open", "under review", "planned", "in progress", "complete", "closed", or any other status your team has set on the settings page. */
+  status: CannyPostStatus;
+  /** (Undocumented) */
+  statusChangedAt: string;
+  /** The list of tag objects associated with this post. */
+  tags: ICannyTag[];
+  /** A brief title describing the post. This is the shorter text input (where the longer is details). */
+  title: string;
+  /** (Undocumented) */
+  totalMRR?: number;
+  /** The URL to the post's page. */
+  url: string;
 }
 
 interface ICannyPost {
@@ -118,6 +207,11 @@ interface ICannyPost {
   by: ICannyUser | null;
   /** The category this post is assigned to, if any. */
   category: ICannyCategory | null;
+  /** (Undocumented) */
+  changeComment?: {
+    value: string;
+    imageURLs: string[];
+  };
   /** The number of non-deleted comments associated with this post. */
   commentCount: number;
   /** Time at which the post was created, in ISO 8601 format. */
@@ -146,7 +240,7 @@ interface ICannyPost {
   /** A brief title describing the post. This is the shorter text input (where the longer is details). */
   title: string;
   /** (Undocumented) */
-  totalMRR: number;
+  totalMRR?: number;
   /** The URL to the post's page. */
   url: string;
 }
@@ -160,6 +254,34 @@ interface ICannyLabel {
   created: string;
   entryCount: number;
   name: string;
+  url: string;
+}
+
+interface ICannyCommentRelatedPost extends ICannyChangelogRelatedPost {}
+interface ICannyVoteRelatedPost extends ICannyChangelogRelatedPost {}
+
+interface ICannyChangelogRelatedPost {
+  /** A unique identifier for the post. */
+  id: string;
+  /** The category this post is assigned to, if any. */
+  category: ICannyCategory | null;
+  /** The number of non-deleted comments associated with this post. */
+  commentCount: number;
+  /** The month and year the post is estimated to be delivered. */
+  eta?: string | null;
+  /** An array of the URLs of the images associated with this post */
+  imageURLs: string[];
+  /** A list of Jira issues that are linked with this post */
+  jira: ICannyJiraAttribute;
+  /** The number of votes that have been cast on this post. */
+  score: number;
+  /** The post's status: "open", "under review", "planned", "in progress", "complete", "closed", or any other status your team has set on the settings page. */
+  status: CannyPostStatus;
+  /** The list of tag objects associated with this post. */
+  tags: ICannyTag[];
+  /** A brief title describing the post. This is the shorter text input (where the longer is details). */
+  title: string;
+  /** The URL to the post's page. */
   url: string;
 }
 
@@ -177,7 +299,7 @@ interface ICannyChangelogEntry {
   /** The plaintext contents of the entry, with images, videos, and links stripped. */
   plaintextDetails: string;
   /** The list of posts this entry is linked to. */
-  posts: ICannyPost[];
+  posts: ICannyChangelogRelatedPost[];
   /** Time at which the entry was published, if it has been published. */
   publishedAt: string | null;
   /** Time at which the entry is schedule to be published, if it is scheduled. */
@@ -212,7 +334,7 @@ interface ICannyComment {
   /** The id of the comment that this comment is a reply to. If this comment is not a reply, this field will be null. */
   parentID: string | null;
   /** The post the comment is associated with. */
-  post: ICannyPost;
+  post: ICannyCommentRelatedPost;
   /** The text value of this comment.  */
   value: string;
 }
@@ -235,7 +357,7 @@ interface ICannyStatusChange {
   /** Time at which the status was changed, in ISO 8601 format. */
   created: string;
   /** The post that had its status changed. */
-  post: ICannyPost;
+  post: ICannyStatusChangeRelatedPost;
   /** The status the post was changed to. */
   status: CannyPostStatus;
 }
@@ -261,9 +383,9 @@ interface ICannyTag {
   /** A unique identifier for the tag. */
   id: string;
   /** The board this tag is associated with. */
-  board: ICannyBoard;
+  board?: ICannyBoard;
   /** Time at which the tag was created, in ISO 8601 format. */
-  created: string;
+  created?: string;
   /** The name of the tag. */
   name: string;
   /** The number of posts that have been assigned this tag. */
@@ -290,11 +412,11 @@ interface ICannyVote {
   /** Time at which the vote was first cast, in ISO 8601 format. */
   created: string;
   /** The post this vote is associated with. */
-  post: ICannyPost;
+  post: ICannyVoteRelatedPost;
   /** The user this post is associated with. */
   voter: ICannyUser;
   /** (Undocumented) Related zendesk ticket information */
-  zendeskTicket: ICannyZendeskTicket | null;
+  zendeskTicket?: ICannyZendeskTicket | null;
 }
 
 interface ICannyWebhookEvent {

@@ -3,7 +3,7 @@ import { AxiosInstance } from 'axios';
 import cache, { createKeyHash } from './cache';
 import { sleep } from './helpers';
 
-interface ICannyPostListResponse {
+export interface ICannyPostListResponse {
   hasMore: boolean;
   posts: ICannyPost[];
 }
@@ -48,7 +48,7 @@ interface ICannyPostCreateArgs {
   imageURLs?: string[];
 }
 
-interface ICannyPostCreateResponse {
+export interface ICannyPostCreateResponse {
   id: string;
 }
 
@@ -147,7 +147,7 @@ export default class Posts {
 
   async changePostStatus(
     args: ICannyPostChangeStatusArgs
-  ): Promise<ICannyPost> {
+  ): Promise<ICannyPostChangeResponse> {
     const response = await this.axios.post(
       Posts.POSTS_CHANGE_STATUS_ROUTE,
       args
@@ -156,13 +156,17 @@ export default class Posts {
     return data;
   }
 
-  async addTag(args: ICannyAddOrRemoveTagArgs): Promise<ICannyPost> {
+  async addTag(
+    args: ICannyAddOrRemoveTagArgs
+  ): Promise<ICannyPostChangeResponse> {
     const response = await this.axios.post(Posts.POSTS_ADD_TAG_ROUTE, args);
     const { data } = response;
     return data;
   }
 
-  async removeTag(args: ICannyAddOrRemoveTagArgs): Promise<ICannyPost> {
+  async removeTag(
+    args: ICannyAddOrRemoveTagArgs
+  ): Promise<ICannyPostChangeResponse> {
     const response = await this.axios.post(Posts.POSTS_REMOVE_TAG_ROUTE, args);
     const { data } = response;
     return data;

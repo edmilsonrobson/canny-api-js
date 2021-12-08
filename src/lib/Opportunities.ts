@@ -7,7 +7,7 @@ interface ICannyOpportunitiesListArg {
   skip?: number;
 }
 
-interface ICannyOpportunitiesListResponse {
+export interface ICannyOpportunitiesListResponse {
   hasMore: boolean;
   opportunities: ICannyOpportunity[];
 }

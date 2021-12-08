@@ -13,9 +13,9 @@ interface ICannyVotesListArgs {
   userID?: string;
 }
 
-interface ICannyVotesListResponse {
+export interface ICannyVotesListResponse {
   hasMore: boolean;
-  votes: ICannyTag[];
+  votes: ICannyVote[];
 }
 
 interface ICannyVotesCreateArgs {

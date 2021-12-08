@@ -9,7 +9,7 @@ interface ICannyStatusChangeListArgs {
   skip?: number;
 }
 
-interface ICannyStatusChangeListResponse {
+export interface ICannyStatusChangeListResponse {
   hasMore: boolean;
   statusChanges: ICannyStatusChange[];
 }
