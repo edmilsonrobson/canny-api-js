@@ -27,8 +27,9 @@ interface ICannyPostListArgs {
   status?: CannyPostStatus;
 }
 
-interface ICannyPostListOptions {
+interface ICannyPostListAllOptions {
   ignoreCache?: boolean;
+  maxPageDepth?: number;
 }
 
 interface ICannyPostCreateArgs {
@@ -98,14 +99,15 @@ export default class Posts {
 
   async listAll(
     args?: ICannyPostListArgs,
-    options?: ICannyPostListOptions
+    options: ICannyPostListAllOptions = {}
   ): Promise<ICannyPost[]> {
+    const { ignoreCache, maxPageDepth } = options;
     if (args) {
       delete args.limit;
       delete args.skip;
     }
     const cachedPostsKey = createKeyHash('postsListAll', { ...args });
-    if (!options || !options.ignoreCache) {
+    if (!options || ignoreCache) {
       const cachedValue = cache.get(cachedPostsKey);
       if (cachedValue) {
         return cachedValue;
@@ -125,12 +127,14 @@ export default class Posts {
     };
 
     let page;
+    let pageDepth = 0;
     do {
       page = await getPage();
       posts.push(...page.posts);
       currentSkipCount += limit;
+      pageDepth++;
       await sleep(2000);
-    } while (page.hasMore);
+    } while (page.hasMore || (maxPageDepth && pageDepth >= maxPageDepth));
 
     cache.store(cachedPostsKey, posts);
     return posts;
