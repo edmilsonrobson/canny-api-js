@@ -54,8 +54,11 @@ const store = (key: string, value: any, ttlInSeconds = 3600) => {
   };
 };
 
+const getCacheSize = () => Object.keys(cache).length;
+
 export default {
   store,
   get,
   forget,
+  getCacheSize,
 };

@@ -6,6 +6,7 @@ import Posts, {
   ICannyPostCreateResponse,
   ICannyPostListResponse,
 } from './Posts';
+import cache from './cache';
 
 const DUMMY_SECRET_API_KEY = 'my-api-key';
 
@@ -107,7 +108,7 @@ mockedAxios.onPost(Posts.POSTS_RETRIEVE_ROUTE).reply<ICannyPost>(200, {
 });
 
 mockedAxios.onPost(Posts.POSTS_LIST_ROUTE).reply<ICannyPostListResponse>(200, {
-  hasMore: true,
+  hasMore: false,
   posts: [
     {
       id: '553c3ef8b8cdcd1501ba1238',
@@ -586,6 +587,103 @@ test('Retrieve must return a post', async (t) => {
   t.deepEqual(response, expectedResponse);
 });
 
+test('List must return a list of posts', async (t) => {
+  const expectedResponse: ICannyPostListResponse = {
+    hasMore: false,
+    posts: [
+      {
+        id: '553c3ef8b8cdcd1501ba1238',
+        author: {
+          id: '553c3ef8b8cdcd1501ba123a',
+          created: '2017-07-15T22:11:00.000Z',
+          email: 'test@test.test',
+          isAdmin: false,
+          name: 'Sally Doe',
+          url: 'https://your-company.canny.io/admin/user/sally-doe',
+          userID: '1234',
+        },
+        board: {
+          created: '2017-07-15T22:11:00.000Z',
+          id: '553c3ef8b8cdcd1501ba1234',
+          name: 'Feature Requests',
+          postCount: 123,
+          url: 'https://your-company.canny.io/admin/board/feature-requests',
+        },
+        by: {
+          id: '524c3ef8b8cdcd1501ba246b',
+          created: '2017-07-15T22:11:00.000Z',
+          email: 'test@john.test',
+          isAdmin: true,
+          name: 'John Doe',
+          url: 'https://your-company.canny.io/admin/user/john-doe',
+          userID: '5678',
+        },
+        category: {
+          id: '553c3ef8b8cdcd1501ba2234',
+          name: 'Dashboard',
+          postCount: 42,
+          url: 'https://your-company.canny.io/admin/board/feature-requests?category=dashboard',
+        },
+        commentCount: 10,
+        created: '2017-07-15T22:11:00.000Z',
+        details: 'Test post details',
+        eta: 'February 2020',
+        imageURLs: [
+          'https://canny.io/images/93fc5808937760b82c3dc00aa5cd86b8.png',
+          'https://canny.io/images/316e5600645b81e4be287a52d506dbfd.jpg',
+        ],
+        jira: {
+          linkedIssues: [
+            {
+              id: '123',
+              key: 'ID-123',
+              url: 'https://your-company.atlassian.net/browse/ID-123',
+            },
+          ],
+        },
+        mergeHistory: [
+          {
+            created: '2018-06-17T22:42:37.167Z',
+            post: {
+              created: '2018-06-17T22:42:00.797Z',
+              details: 'Awesome feature post details',
+              id: '553c3ef8b8cdcd1501ba6789',
+              imageURLs: [],
+              title: 'Another awesome feature request',
+            },
+          },
+        ],
+        owner: {
+          id: '553c3ef8b8cdcd1501ba123a',
+          created: '2017-07-15T22:11:00.000Z',
+          email: 'test@test.test',
+          isAdmin: true,
+          name: 'Sally Doe',
+          url: 'https://your-company.canny.io/admin/user/sally-doe',
+          userID: '1234',
+        },
+        score: 72,
+        status: 'in progress',
+        statusChangedAt: '2017-07-15T23:22:00.000Z',
+        tags: [
+          {
+            id: '553c3ef8b8cdcd1501ba3234',
+            name: 'iOS',
+            postCount: 15,
+            url: 'https://your-company.canny.io/admin/board/feature-requests?tags=ios',
+          },
+        ],
+        title: 'An awesome feature request',
+        url: 'https://your-company.canny.io/admin/board/feature-requests/p/post-title',
+      },
+    ],
+  };
+
+  const response = await cannyAPI.posts.list();
+
+  t.deepEqual(response, expectedResponse);
+});
+
 test('Create must return the id of the created post', async (t) => {
   const expectedResponse: ICannyPostCreateResponse = {
     id: '553c3ef8b8cdcd1501ba1240',
@@ -904,4 +1002,20 @@ test('Remove post tag must return the modified post', async (t) => {
     tagID: 'my-tag-id',
   });
   t.deepEqual(response, expectedResponse);
+});
+
+test.only('ListAll must properly update the cache only with unique calls', async (t) => {
+  t.is(0, cache.getCacheSize());
+
+  console.log('Making call');
+  await cannyAPI.posts.listAll();
+  t.is(1, cache.getCacheSize());
+
+  await cannyAPI.posts.listAll();
+  t.is(1, cache.getCacheSize());
+
+  await cannyAPI.posts.listAll({
+    authorID: 'author-id',
+  });
+  t.is(2, cache.getCacheSize());
 });
